@@ -1,0 +1,25 @@
+# Gradle
+.gradle/
+build/
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# IntelliJ
+.idea/
+
+# Compiled classes
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Output directories
+out/
+bin/
