@@ -1,12 +1,3 @@
-# stress-test-basic
-인프런 '백엔드 애플리케이션 성능 테스트하기' 강의
+# 부하 테스트 애플리케이션 예제
 
----
-
-#### 이 예제를 사용한 강의 - https://inf.run/74PdQ
-
-이 코드는 "백엔드 애플리케이션 성능 테스트하기" 강의의 코드입니다<br>
-여기에 부하 테스트를 위한 설정들을 적용하며 실습해 볼 예정입니다.
-
-# 작업
-0. gradle으로 프로젝트 베이스 변경(O)
+This is a new Spring Boot project initialized with Kotlin and Gradle.
