@@ -8,15 +8,15 @@ import java.util.*
 
 @Entity
 class MemberDetail : AbstractEntity() {
-    private var profileAddress: String? = null
+    var profileAddress: String? = null
 
-    private var introduction: String? = null
+    var introduction: String? = null
 
-    private var registeredAt: LocalDateTime? = null
+    var registeredAt: LocalDateTime? = null
 
-    private var activatedAt: LocalDateTime? = null
+    var activatedAt: LocalDateTime? = null
 
-    private var deactivatedAt: LocalDateTime? = null
+    var deactivatedAt: LocalDateTime? = null
 
     fun activate() {
         Assert.isTrue(activatedAt == null, "이미 activatedAt은 설정되었습니다")

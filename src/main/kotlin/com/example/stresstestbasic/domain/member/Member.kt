@@ -11,18 +11,18 @@ import java.util.*
 class Member : AbstractEntity() {
     @NaturalId
     @Column(unique = true, nullable = false, name = "email")
-    private var emailValue: String? = null
+    var emailValue: String? = null
 
-    private var nickname: String? = null
+    var nickname: String? = null
 
-    private var passwordHash: String? = null
+    var passwordHash: String? = null
 
     @Enumerated(EnumType.STRING)
-    private var status: MemberStatus? = null
+    var status: MemberStatus? = null
 
     @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "member_detail_id")
-    private var detail: MemberDetail? = null
+    var detail: MemberDetail? = null
 
     // Value class getter/setter
     var email: Email?
