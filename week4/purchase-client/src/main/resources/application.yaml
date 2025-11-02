@@ -15,10 +15,46 @@ payment-api:
   # 예: 3000, 5000, 10000
   read-timeout: 10000
 
+# Resilience4j 설정
+resilience4j:
+  # Retry 설정
+  retry:
+    instances:
+      paymentApi:
+        max-attempts: 3  # 최대 재시도 횟수 (초기 시도 포함)
+        wait-duration: 2000  # 재시도 간 대기 시간 (밀리초)
+        enable-exponential-backoff: true  # 지수 백오프 활성화
+        exponential-backoff-multiplier: 2  # 백오프 배수 (2배씩 증가)
+        retry-exceptions:
+          - java.net.SocketTimeoutException
+          - java.net.ConnectException
+          - org.springframework.web.client.ResourceAccessException
+
+  # Circuit Breaker 설정
+  circuitbreaker:
+    instances:
+      paymentApi:
+        failure-rate-threshold: 50  # 실패율 임계값 (%)
+        slow-call-rate-threshold: 50  # 느린 호출 비율 임계값 (%)
+        slow-call-duration-threshold: 5000  # 느린 호출로 판단하는 기준 시간 (밀리초)
+        sliding-window-type: COUNT_BASED  # 슬라이딩 윈도우 타입
+        sliding-window-size: 10  # 슬라이딩 윈도우 크기 (호출 횟수)
+        minimum-number-of-calls: 5  # Circuit Breaker 판단에 필요한 최소 호출 횟수
+        wait-duration-in-open-state: 10000  # OPEN 상태 유지 시간 (밀리초)
+        permitted-number-of-calls-in-half-open-state: 3  # Half-Open 상태에서 허용할 호출 횟수
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  # Time Limiter 설정
+  timelimiter:
+    instances:
+      paymentApi:
+        timeout-duration: 15000  # 전체 처리 시간 제한 (밀리초)
+
 # 로깅 설정
 logging:
   level:
     root: INFO
     com.example.purchase: DEBUG
+    io.github.resilience4j: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
