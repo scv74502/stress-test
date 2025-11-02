@@ -1,0 +1,24 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: purchase-client
+
+# Payment API 서버 설정
+payment-api:
+  base-url: http://localhost:8081
+  # Connection Timeout: 서버에 연결을 시도하는 최대 시간 (밀리초)
+  # 예: 3000, 5000, 10000
+  connection-timeout: 5000
+  # Read Timeout: 서버로부터 응답을 기다리는 최대 시간 (밀리초)
+  # 예: 3000, 5000, 10000
+  read-timeout: 10000
+
+# 로깅 설정
+logging:
+  level:
+    root: INFO
+    com.example.purchase: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
