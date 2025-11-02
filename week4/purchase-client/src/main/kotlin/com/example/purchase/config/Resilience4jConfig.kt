@@ -4,8 +4,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.github.resilience4j.retry.RetryRegistry
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Bean
 import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnErrorEvent
+import jakarta.annotation.PostConstruct
 import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnStateTransitionEvent
 import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnSuccessEvent
 import io.github.resilience4j.retry.event.RetryOnErrorEvent
@@ -20,8 +20,8 @@ class Resilience4jConfig(
     private val retryRegistry: RetryRegistry
 ) {
 
-    @Bean
-    fun configureCircuitBreakerEventLogging(): CircuitBreakerRegistry {
+    @PostConstruct
+    fun configureCircuitBreakerEventLogging() {
         circuitBreakerRegistry.allCircuitBreakers.forEach { circuitBreaker ->
             circuitBreaker.eventPublisher
                 .onSuccess { event: CircuitBreakerOnSuccessEvent ->
@@ -34,11 +34,10 @@ class Resilience4jConfig(
                     logger.warn { "[Circuit Breaker: ${event.circuitBreakerName}] 상태 전환 - ${event.stateTransition.fromState} → ${event.stateTransition.toState}" }
                 }
         }
-        return circuitBreakerRegistry
     }
 
-    @Bean
-    fun configureRetryEventLogging(): RetryRegistry {
+    @PostConstruct
+    fun configureRetryEventLogging() {
         retryRegistry.allRetries.forEach { retry ->
             retry.eventPublisher
                 .onRetry { event: RetryOnRetryEvent ->
@@ -51,6 +50,5 @@ class Resilience4jConfig(
                     logger.error { "[Retry: ${event.name}] 모든 재시도 실패 - 총 시도 횟수: ${event.numberOfRetryAttempts}, 최종 에러: ${event.lastThrowable.javaClass.simpleName}" }
                 }
         }
-        return retryRegistry
     }
 }
